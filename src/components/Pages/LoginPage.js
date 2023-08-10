@@ -50,7 +50,7 @@ function LoginPage({ setIsLoggedIn }) {
       password: data.get("password"),
     };
     axios
-      .post("https://localhost:7199/api/PanteonTestCase/Login", loginRequest)
+      .post("https://panteon-f9b2a8465d1e.herokuapp.com//api/PanteonTestCase/Login", loginRequest)
       .then((response) => {
         setloggedInfo(response.data);
       })

@@ -36,7 +36,7 @@ function RegisterPage() {
     };
     axios
       .post(
-        "https://localhost:7199/api/PanteonTestCase/Register",
+        "https://panteon-f9b2a8465d1e.herokuapp.com//api/PanteonTestCase/Register",
         registerRequest
       )
       .then((response) => {
