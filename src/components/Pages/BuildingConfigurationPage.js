@@ -98,7 +98,7 @@ function BuildingConfigurationPage() {
     }
     axios
       .post(
-        "https://panteon-f9b2a8465d1e.herokuapp.com//api/PanteonTestCase/AddOrUpdateBuildingConfiguration",
+        "https://panteon-f9b2a8465d1e.herokuapp.com/api/PanteonTestCase/AddOrUpdateBuildingConfiguration",
         buildingConfigurationRequest,
         {
           headers: {
@@ -127,7 +127,7 @@ function BuildingConfigurationPage() {
   const fetchData = () => {
     axios
       .get(
-        "https://panteon-f9b2a8465d1e.herokuapp.com//api/PanteonTestCase/GetBuildingConfigurationList",
+        "https://panteon-f9b2a8465d1e.herokuapp.com/api/PanteonTestCase/GetBuildingConfigurationList",
         {
           headers: {
             Authorization: `Bearer ${bearerToken}`,
@@ -142,7 +142,7 @@ function BuildingConfigurationPage() {
       });
 
     axios
-      .get("https://panteon-f9b2a8465d1e.herokuapp.com//api/PanteonTestCase/GetBuildingTypes", {
+      .get("https://panteon-f9b2a8465d1e.herokuapp.com/api/PanteonTestCase/GetBuildingTypes", {
         headers: {
           Authorization: `Bearer ${bearerToken}`,
         },
