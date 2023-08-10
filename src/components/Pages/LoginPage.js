@@ -13,6 +13,7 @@ import "react-toastify/dist/ReactToastify.css";
 import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import panteonLogo from "../../assets/images/panteon.png";
+import { ResultType } from "../../enums/result-type";
 
 function LoginPage({ setIsLoggedIn }) {
   const [loggedInfo, setloggedInfo] = useState(null);
@@ -83,7 +84,7 @@ function LoginPage({ setIsLoggedIn }) {
 
   React.useEffect(() => {
     if (loggedInfo != null) {
-      loggedInfo?.resultType === 1 ? login() : toast.error(loggedInfo.message);
+      loggedInfo?.resultType === ResultType.Success ? login() : toast.error(loggedInfo.message);
     }
   }, [loggedInfo]);
 

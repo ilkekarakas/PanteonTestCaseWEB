@@ -45,24 +45,33 @@ function App() {
   });
   return (
     <div className="App">
-      <Header isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}/>
-        <ThemeProvider theme={theme}>
+    <Header isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}/>
+    <ThemeProvider theme={theme}>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={isLoggedIn ? <Navigate to="/building-configuration" /> : <LoginPage setIsLoggedIn={setIsLoggedIn} />} />
+          <Route
+            path="/login"
+            element={isLoggedIn ? <Navigate to="/building-configuration" /> : <LoginPage setIsLoggedIn={setIsLoggedIn} />}
+          />
           <Route
             path="/building-configuration"
-            element={isLoggedIn ? <BuildingConfigurationPage /> : <Navigate to="/" />}
+            element={isLoggedIn ? <BuildingConfigurationPage /> : <Navigate to="/login" />}
           />
           <Route
             path="/register"
             element={isLoggedIn ? <Navigate to="/building-configuration" /> : <RegisterPage />}
           />
+          {/* Catch-all Route: Hiçbir yol eşleşmezse buraya düşer */}
+          <Route
+            path="/*"
+            element={<Navigate to="/login" />}  // Tüm yolları /login'e yönlendiriyor
+          />
         </Routes>
       </BrowserRouter>
+      <ToastContainer />
     </ThemeProvider>
-    <ToastContainer />
-    </div>
+  </div>
+  
   );
 }
 

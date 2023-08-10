@@ -18,8 +18,14 @@ import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import { FormControl, InputLabel, Modal } from "@mui/material";
 import { toast } from "react-toastify";
+import { ResultType } from "../../enums/result-type";
+import CloseIcon from "@mui/icons-material/Close";
+import UpdateIcon from "@mui/icons-material/Create";
+import Tooltip from "@mui/material/Tooltip";
 
 function BuildingConfigurationPage() {
+  const userInfo = JSON.parse(localStorage.getItem("user_info"));
+  const bearerToken = userInfo.token.accessToken;
   const style = {
     position: "absolute",
     top: "50%",
@@ -93,10 +99,15 @@ function BuildingConfigurationPage() {
     axios
       .post(
         "https://localhost:7199/api/PanteonTestCase/AddOrUpdateBuildingConfiguration",
-        buildingConfigurationRequest
+        buildingConfigurationRequest,
+        {
+          headers: {
+            Authorization: `Bearer ${bearerToken}`,
+          },
+        }
       )
       .then((response) => {
-        if (response.data.resultType == 1) {
+        if (response.data.resultType === ResultType.Success) {
           toast.success(response.data.message);
           fetchData();
           handleClose();
@@ -116,7 +127,12 @@ function BuildingConfigurationPage() {
   const fetchData = () => {
     axios
       .get(
-        "https://localhost:7199/api/PanteonTestCase/GetBuildingConfigurationList"
+        "https://localhost:7199/api/PanteonTestCase/GetBuildingConfigurationList",
+        {
+          headers: {
+            Authorization: `Bearer ${bearerToken}`,
+          },
+        }
       )
       .then((response) => {
         setData(response.data.data);
@@ -126,7 +142,11 @@ function BuildingConfigurationPage() {
       });
 
     axios
-      .get("https://localhost:7199/api/PanteonTestCase/GetBuildingTypes")
+      .get("https://localhost:7199/api/PanteonTestCase/GetBuildingTypes", {
+        headers: {
+          Authorization: `Bearer ${bearerToken}`,
+        },
+      })
       .then((response) => {
         setBuildingTypesData(response.data.data);
       })
@@ -139,19 +159,30 @@ function BuildingConfigurationPage() {
     <div style={{ padding: "5%" }}>
       <h1>Building Configuration</h1>
       <Container maxWidth="lg">
-        <Button
-          type="submit"
-          fullWidth
-          variant="contained"
-          sx={{ mt: 3, mb: 2 }}
-          onClick={() => {
-            setHeader("Add New Building Configuration");
-            setSelectedRowData(null);
-            handleOpen();
-          }}
+        <Tooltip
+          title={
+            buildingTypesData.length === 0
+              ? "There are no building types available"
+              : ""
+          }
         >
-          + Add
-        </Button>
+          <span>
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              sx={{ mt: 3, mb: 2 }}
+              onClick={() => {
+                setHeader("Add New Building Configuration");
+                setSelectedRowData(null);
+                handleOpen();
+              }}
+              disabled={buildingTypesData.length === 0 ? true : false}
+            >
+              + Add New Building Configuration
+            </Button>
+          </span>
+        </Tooltip>
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 650 }} aria-label="simple table">
             <TableHead>
@@ -173,7 +204,7 @@ function BuildingConfigurationPage() {
                   </TableCell>
                   <TableCell align="center">${row.buildingCost}</TableCell>
                   <TableCell align="center">
-                    {row.constructionTime} second
+                    {row.constructionTime} hour
                   </TableCell>
                   <TableCell align="center">
                     <Button
@@ -187,7 +218,7 @@ function BuildingConfigurationPage() {
                       variant="contained"
                       sx={{ mt: 3, mb: 2 }}
                     >
-                      Update
+                      <UpdateIcon /> Update
                     </Button>
                   </TableCell>
                 </TableRow>
@@ -208,9 +239,8 @@ function BuildingConfigurationPage() {
             onClick={handleClose}
             style={{ float: "right" }}
           >
-            X
+            <CloseIcon />
           </Button>
-
           <div align="center">
             <ThemeProvider theme={theme}>
               <Container component="main" maxWidth="xs">
@@ -233,6 +263,7 @@ function BuildingConfigurationPage() {
                       <InputLabel id="demo-simple-select-label">
                         Building Type
                       </InputLabel>
+
                       <Select
                         labelId="demo-simple-select-label"
                         id="demo-simple-select"
@@ -255,9 +286,13 @@ function BuildingConfigurationPage() {
                         }
                       >
                         {selectedRowdata != null ? (
-                          <MenuItem value={selectedRowdata.buildingType}>
-                            {BuildingTypeStrings[selectedRowdata.buildingType]}
-                          </MenuItem>
+                            <MenuItem value={selectedRowdata.buildingType}>
+                              {
+                                BuildingTypeStrings[
+                                  selectedRowdata.buildingType
+                                ]
+                              }
+                            </MenuItem>
                         ) : (
                           buildingTypesData.map((option) => (
                             <MenuItem value={option.id}>{option.name}</MenuItem>

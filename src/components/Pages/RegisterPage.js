@@ -13,6 +13,7 @@ import "react-toastify/dist/ReactToastify.css";
 import panteonLogo from "../../assets/images/panteon.png";
 import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
+import { ResultType } from "../../enums/result-type";
 
 function RegisterPage() {
   const [registerInfo, setRegisterInfo] = useState(null);
@@ -48,16 +49,14 @@ function RegisterPage() {
 
   async function registerSuccess() {
     toast.success(registerInfo.message);
-    navigate("/");
+    navigate("/login");
   }
 
   React.useEffect(() => {
     if (registerInfo != null) {
-      registerInfo?.resultType === 1
+      registerInfo?.resultType === ResultType.Success
         ? registerSuccess()
         : toast.error(registerInfo.message);
-      // registerInfo?.data === null ? navigate("/Admin") : navigate('/Resident')
-      // localStorage.setItem("resident", JSON.stringify(registerInfo));
     }
   }, [registerInfo]);
 
@@ -83,7 +82,7 @@ function RegisterPage() {
     setIsValidUsername(validateUsername(inputUsername));
   };
 
-  const [password, setPassword] = useState('');
+  const [password, setPassword] = useState("");
   const [isPasswordValid, setIsPasswordValid] = useState(true);
 
   const validatePassword = (input) => {
@@ -177,8 +176,8 @@ function RegisterPage() {
                   error={!isPasswordValid}
                   helperText={
                     !isPasswordValid
-                      ? 'Your password must contain at least 8 characters, uppercase letters, lowercase letters and numbers.'
-                      : ''
+                      ? "Your password must contain at least 8 characters, uppercase letters, lowercase letters and numbers."
+                      : ""
                   }
                 />
                 <Button
