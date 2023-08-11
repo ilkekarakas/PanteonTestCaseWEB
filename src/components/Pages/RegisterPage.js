@@ -36,7 +36,7 @@ function RegisterPage() {
     };
     axios
       .post(
-        "https://localhost:7199/api/PanteonTestCase/Register",
+        "http://16.171.27.88/api/PanteonTestCase/Register",
         registerRequest
       )
       .then((response) => {

@@ -98,7 +98,7 @@ function BuildingConfigurationPage() {
     }
     axios
       .post(
-        "https://localhost:7199/api/PanteonTestCase/AddOrUpdateBuildingConfiguration",
+        "http://16.171.27.88/api/PanteonTestCase/AddOrUpdateBuildingConfiguration",
         buildingConfigurationRequest,
         {
           headers: {
@@ -127,7 +127,7 @@ function BuildingConfigurationPage() {
   const fetchData = () => {
     axios
       .get(
-        "https://localhost:7199/api/PanteonTestCase/GetBuildingConfigurationList",
+        "http://16.171.27.88/api/PanteonTestCase/GetBuildingConfigurationList",
         {
           headers: {
             Authorization: `Bearer ${bearerToken}`,
@@ -142,7 +142,7 @@ function BuildingConfigurationPage() {
       });
 
     axios
-      .get("https://localhost:7199/api/PanteonTestCase/GetBuildingTypes", {
+      .get("http://16.171.27.88/api/PanteonTestCase/GetBuildingTypes", {
         headers: {
           Authorization: `Bearer ${bearerToken}`,
         },

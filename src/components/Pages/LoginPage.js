@@ -50,7 +50,7 @@ function LoginPage({ setIsLoggedIn }) {
       password: data.get("password"),
     };
     axios
-      .post("https://localhost:7199/api/PanteonTestCase/Login", loginRequest)
+      .post("http://16.171.27.88/api/PanteonTestCase/Login", loginRequest)
       .then((response) => {
         setloggedInfo(response.data);
       })
