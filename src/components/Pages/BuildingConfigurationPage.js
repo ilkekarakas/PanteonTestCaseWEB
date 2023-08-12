@@ -87,6 +87,7 @@ function BuildingConfigurationPage() {
   const httpClient = axios.create({
     baseURL
   });
+  axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
 
   async function handleUpdateSubmit(event) {
     event.preventDefault();

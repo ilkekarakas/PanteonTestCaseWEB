@@ -35,10 +35,11 @@ function LoginPage({ setIsLoggedIn }) {
   };
 
   const baseURL = "https://16.171.27.88/api"; // Base URL'nin sonunda / olmamasına dikkat edin
-
+  
   const httpClient = axios.create({
     baseURL
   });
+  axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
 
   async function login() {
     localStorage.setItem("user_info", JSON.stringify(loggedInfo.data));

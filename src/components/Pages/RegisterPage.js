@@ -30,6 +30,7 @@ function RegisterPage() {
   const httpClient = axios.create({
     baseURL,
   });
+  axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
 
   async function handleSubmit(event) {
     event.preventDefault();
