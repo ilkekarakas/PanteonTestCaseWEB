@@ -82,6 +82,12 @@ function BuildingConfigurationPage() {
     }
   };
 
+  const baseURL = "http://16.171.27.88/api"; // Base URL'nin sonunda / olmamasına dikkat edin
+
+  const httpClient = axios.create({
+    baseURL
+  });
+
   async function handleUpdateSubmit(event) {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -96,9 +102,9 @@ function BuildingConfigurationPage() {
       buildingConfigurationRequest.Id = selectedRowdata.id;
       buildingConfigurationRequest.BuildingType = selectedRowdata.buildingType;
     }
-    axios
+    httpClient
       .post(
-        "http://16.171.27.88/api/PanteonTestCase/AddOrUpdateBuildingConfiguration",
+        "/PanteonTestCase/AddOrUpdateBuildingConfiguration",
         buildingConfigurationRequest,
         {
           headers: {
@@ -125,15 +131,12 @@ function BuildingConfigurationPage() {
   }, []);
 
   const fetchData = () => {
-    axios
-      .get(
-        "http://16.171.27.88/api/PanteonTestCase/GetBuildingConfigurationList",
-        {
-          headers: {
-            Authorization: `Bearer ${bearerToken}`,
-          },
-        }
-      )
+    httpClient
+      .get("/PanteonTestCase/GetBuildingConfigurationList", {
+        headers: {
+          Authorization: `Bearer ${bearerToken}`,
+        },
+      })
       .then((response) => {
         setData(response.data.data);
       })
@@ -141,8 +144,8 @@ function BuildingConfigurationPage() {
         console.error("Error:", error);
       });
 
-    axios
-      .get("http://16.171.27.88/api/PanteonTestCase/GetBuildingTypes", {
+    httpClient
+      .get("/PanteonTestCase/GetBuildingTypes", {
         headers: {
           Authorization: `Bearer ${bearerToken}`,
         },
@@ -286,13 +289,9 @@ function BuildingConfigurationPage() {
                         }
                       >
                         {selectedRowdata != null ? (
-                            <MenuItem value={selectedRowdata.buildingType}>
-                              {
-                                BuildingTypeStrings[
-                                  selectedRowdata.buildingType
-                                ]
-                              }
-                            </MenuItem>
+                          <MenuItem value={selectedRowdata.buildingType}>
+                            {BuildingTypeStrings[selectedRowdata.buildingType]}
+                          </MenuItem>
                         ) : (
                           buildingTypesData.map((option) => (
                             <MenuItem value={option.id}>{option.name}</MenuItem>

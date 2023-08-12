@@ -34,6 +34,12 @@ function LoginPage({ setIsLoggedIn }) {
     setIsValidEmail(validateEmail(inputEmail));
   };
 
+  const baseURL = "http://16.171.27.88/api"; // Base URL'nin sonunda / olmamasına dikkat edin
+
+  const httpClient = axios.create({
+    baseURL
+  });
+
   async function login() {
     localStorage.setItem("user_info", JSON.stringify(loggedInfo.data));
     setIsLoggedIn(true);
@@ -49,8 +55,8 @@ function LoginPage({ setIsLoggedIn }) {
       Email: data.get("Email"),
       password: data.get("password"),
     };
-    axios
-      .post("http://16.171.27.88/api/PanteonTestCase/Login", loginRequest)
+    httpClient
+      .post("/PanteonTestCase/Login", loginRequest)
       .then((response) => {
         setloggedInfo(response.data);
       })
@@ -84,7 +90,9 @@ function LoginPage({ setIsLoggedIn }) {
 
   React.useEffect(() => {
     if (loggedInfo != null) {
-      loggedInfo?.resultType === ResultType.Success ? login() : toast.error(loggedInfo.message);
+      loggedInfo?.resultType === ResultType.Success
+        ? login()
+        : toast.error(loggedInfo.message);
     }
   }, [loggedInfo]);
 

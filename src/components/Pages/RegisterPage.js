@@ -25,6 +25,12 @@ function RegisterPage() {
   const [username, setUsername] = useState("");
   const [isValidUsername, setIsValidUsername] = useState(true);
 
+  const baseURL = "http://16.171.27.88/api"; // Base URL'nin sonunda / olmamasına dikkat edin
+
+  const httpClient = axios.create({
+    baseURL,
+  });
+
   async function handleSubmit(event) {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -34,11 +40,8 @@ function RegisterPage() {
       Email: data.get("Email"),
       password: data.get("password"),
     };
-    axios
-      .post(
-        "http://16.171.27.88/api/PanteonTestCase/Register",
-        registerRequest
-      )
+    httpClient
+      .post("/PanteonTestCase/Register", registerRequest)
       .then((response) => {
         setRegisterInfo(response.data);
       })
