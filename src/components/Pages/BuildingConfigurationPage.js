@@ -82,7 +82,7 @@ function BuildingConfigurationPage() {
     }
   };
 
-  const baseURL = "http://16.171.27.88/api"; // Base URL'nin sonunda / olmamasına dikkat edin
+  const baseURL = "https://16.171.27.88/api"; // Base URL'nin sonunda / olmamasına dikkat edin
 
   const httpClient = axios.create({
     baseURL
